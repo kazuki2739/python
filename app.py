@@ -58,6 +58,30 @@ def register_form():
 def register_exe():
     user_name = request.form.get("username")
     password = request.form.get("password")
+    
+    # バリデーションチェック
+    if user_name == "":
+        error = "ユーザ名が未入力です。"
+        return render_template("register.html", error=error, user_name = user_name, password=password)
+    if password == "":
+        error = "ユーザ名が未入力です。"
+        return render_template("register.html", error=error)
+    
+    count = db.insert_user(user_name, password)
+    
+    if count == 1:
+        msg = "登録が完了しました。"
+        return redirect(url_for("index", msg=msg))
+    else :
+        error = "登録に失敗しました。"
+        return render_template("register.html", error=error)
+    
+@app.route('/mypage', methods = ['GET'])
+def mypage():
+    if 'user' in session:
+        return render_template('mypage.html')
+    else:
+        return redirect(url_for('index'))
 
 
 if __name__ == "__main__":
