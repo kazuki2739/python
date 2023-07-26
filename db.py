@@ -117,3 +117,16 @@ def book_list():
     connection.close()
     
     return rows
+
+def book_delete(id):
+    connection = get_connection()
+    cursor = connection.cursor()
+    
+    sql = "DELETE FROM book_sample WHERE id = %s"
+    
+    cursor.execute(sql,(id,))
+    
+    connection.commit()
+    
+    connection.close()
+    cursor.close()

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>削除したい図書のIDを入力してください</h2>
+    <form action="{{url_for('book_delete_result')}}" method="post">
+        <input type="text" name="id"> <br>
+        <button type="submit" class="button">削除</button>
+    </form>
+    <a href="{{url_for('mypage')}}">マイページへ</a>
+    </div>
+</body>
+</html>

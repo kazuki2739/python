@@ -121,6 +121,16 @@ def book_list():
     
     return render_template('book_list.html', book_list = book_list)
 
+@app.route('/book_delete')
+def book_delete():
+    return render_template('book_delete.html')
+
+@app.route('/book_delete_result', methods = ['POST'])
+def book_delete_result():
+    id = request.form.get('id')
+    db.book_delete(id)
+    return render_template('book_delete_result.html')
+
 if __name__ == "__main__":
     app.run(debug = True)
 
