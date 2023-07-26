@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>図書一覧</h1>
+
+    <table border=1>
+        <tr>
+            <th> I D</th>
+            <th>図書名</th>
+            <th>著者名</th>
+            <th>ISBN</th>
+
+        </tr>
+        {% for s in book_list%}
+        <tr>
+            <td>{{ s[0]}}</td>
+            <td>{{ s[1]}}</td>
+            <td>{{ s[2]}}</td>
+            <td>{{ s[3]}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="{{url_for('mypage')}}">マイページへ</a>
+</body>
+</html>

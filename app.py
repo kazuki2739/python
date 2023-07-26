@@ -5,6 +5,7 @@ from datetime import timedelta
 import db, string, random
 
 app = Flask(__name__)
+app.secret_key = ''.join(random.choices(string.ascii_letters, k=256))
 
 #アップロード先のファイルパスの定数（絶対パス)
 # UPLOAD_FOLDER = 'C://Users/kazuki/Desktop/Python/file_upload_sample/static/images'
@@ -71,10 +72,40 @@ def register_exe():
     
     if count == 1:
         msg = "登録が完了しました。"
-        return redirect(url_for("index", msg=msg))
+        return redirect(url_for("mypage", msg=msg))
     else :
         error = "登録に失敗しました。"
-        return render_template("register.html", error=error)
+        return render_template("register_book.html", error=error)
+    
+@app.route("/register_book")
+def register_book():
+    return render_template("register_book.html")
+
+@app.route("/register_book_exe", methods = ["POST"])
+def register_book_exe():
+    name = request.form.get("name")
+    tyosha = request.form.get("tyosha")
+    isbn = request.form.get("isbn")
+    
+    # バリデーションチェック
+    if name == "":
+        error = "図書名が未入力です。"
+        return render_template("register_book.html", error=error, name = name, tyosha = tyosha, isbn = isbn)
+    if tyosha == "":
+        error = "著者名が未入力です。"
+        return render_template("register_book.html", error=error)
+    if isbn == "":
+        error = "isbnが未入力です。"
+        return render_template("register_book.html", error = error)
+    
+    count = db.insert_book(name, tyosha, isbn)
+    
+    if count == 1:
+        msg = "登録が完了しました。"
+        return redirect(url_for("mypage", msg=msg))
+    else :
+        error = "登録に失敗しました。"
+        return render_template("register_book.html", error=error)
     
 @app.route('/mypage', methods = ['GET'])
 def mypage():
@@ -83,6 +114,12 @@ def mypage():
     else:
         return redirect(url_for('index'))
 
+@app.route('/book_list')
+def book_list():
+    
+    book_list = db.book_list()
+    
+    return render_template('book_list.html', book_list = book_list)
 
 if __name__ == "__main__":
     app.run(debug = True)

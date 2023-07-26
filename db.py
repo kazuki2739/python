@@ -64,3 +64,56 @@ def login(user_name, password):
         cursor.close()
         connection.close()
     return flg
+
+def insert_book(name, tyosha, isbn):
+    sql = "INSERT INTO book_sample values(default, %s, %s, %s)"
+    
+    try :
+        connection = get_connection()
+        cursor = connection.cursor()
+        cursor.execute(sql, (name, tyosha, isbn,))
+        count = cursor.rowcount
+        connection.commit()
+        
+    except psycopg2.DatabaseError:
+        count = 0
+        
+    finally :
+        cursor.close()
+        connection.close()
+
+    return count
+
+def get_list():
+    sql = "select * from book_sample"
+    
+    try :
+        connection = get_connection()
+        cursor = connection.cursor()
+        list = cursor.execute(sql)
+        count = cursor.rowcount
+        connection.commit()
+        
+    except psycopg2.DatabaseError:
+        count = 0
+        
+    finally :
+        cursor.close()
+        connection.close()
+
+    return list
+
+def book_list():
+    
+    connection = get_connection()
+    cursor  = connection.cursor()
+    
+    sql = "SELECT * FROM book_sample"
+    
+    cursor.execute(sql)
+    rows = cursor.fetchall()
+    
+    cursor.close()
+    connection.close()
+    
+    return rows
